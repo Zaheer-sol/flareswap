@@ -1,0 +1,27 @@
+{
+  "name": "flareswap",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cross-chain intent-based DEX on Flare — FTSO + FDC + FAssets",
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "test": "npm run test:contracts && npm run test:backend",
+    "test:contracts": "cd contracts && forge test",
+    "test:backend": "cd backend && npm test",
+    "build": "npm run build:contracts && npm run build:backend && npm run build:frontend",
+    "build:contracts": "cd contracts && forge build",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "typecheck": "cd backend && npm run typecheck && cd ../frontend && npm run typecheck",
+    "abis": "./contracts/script/export-abis.sh",
+    "devnet": "cd contracts && anvil",
+    "deploy:local": "cd contracts && forge script script/DeployLocal.s.sol:DeployLocal --rpc-url http://127.0.0.1:8545 --broadcast --slow && ./script/export-abis.sh",
+    "deploy:coston2": "cd contracts && forge script script/Deploy.s.sol:Deploy --rpc-url coston2 --broadcast --slow -vvv && ./script/export-abis.sh",
+    "seed:coston2": "cd contracts && forge script script/Seed.s.sol:Seed --rpc-url coston2 --broadcast --slow -vvv",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

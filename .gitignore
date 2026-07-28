@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+
+# builds
+dist/
+.next/
+out/
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+
+# runtime state
+backend/data/
+*.db
+*.db-wal
+*.db-shm
+
+# secrets — deployments/*.json is committed on purpose, .env never is
+.env
+.env.local
+.env.*.local
+
+# tooling
+.DS_Store
+*.tsbuildinfo
+.vscode/
+.idea/
