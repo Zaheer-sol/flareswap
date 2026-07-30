@@ -265,12 +265,16 @@ operator wallet needs enough for deployment *and* for ongoing FDC attestation re
 
 ```bash
 RELAYER_PRIVATE_KEY=0x...             # operator key, funded with C2FLR
-FDC_VERIFIER_API_KEY=...              # for fdc-verifiers-testnet.flare.network
-FDC_DA_LAYER_API_KEY=...              # if your DA layer endpoint requires one
 ```
 
-Without these the backend runs **read-only**: prices, quotes, indexing and the whole UI work, but
-nothing settles.
+That is the only secret required. Flare publishes a **public verifier API key**
+(`00000000-0000-0000-0000-000000000000`, see
+[API resources](https://dev.flare.network/network/overview#api-resources)) which is the built-in
+default, and the DA layer needs no key at all — both were verified against live Coston2. Request a
+dedicated key only if you need higher rate limits.
+
+Without `RELAYER_PRIVATE_KEY` the backend runs **read-only**: prices, quotes, indexing and the
+whole UI work, but nothing settles.
 
 **To use real FAssets** instead of the pre-minted FXRP reserve, set `ASSET_MANAGER_ADDRESS` before
 deploying. The script wires `FAssetsMinter` in place of `PooledFxrpMinter`; nothing upstream

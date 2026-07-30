@@ -76,7 +76,10 @@ const envSchema = z.object({
   XRPL_CONFIRMATIONS: z.coerce.number().default(1),
 
   FDC_VERIFIER_URL: z.string().default("https://fdc-verifiers-testnet.flare.network"),
-  FDC_VERIFIER_API_KEY: z.string().default(""),
+  // Flare publishes a public verifier key for standard rate limits; see
+  // dev.flare.network/network/overview#api-resources. Override only if you have
+  // requested a dedicated key for higher limits.
+  FDC_VERIFIER_API_KEY: z.string().default("00000000-0000-0000-0000-000000000000"),
   FDC_DA_LAYER_URL: z.string().default("https://ctn2-data-availability.flare.network"),
   FDC_DA_LAYER_API_KEY: z.string().default(""),
   FDC_PROTOCOL_ID: z.coerce.number().default(200),
