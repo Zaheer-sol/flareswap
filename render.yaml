@@ -1,0 +1,66 @@
+# Render Blueprint — deploys both FlareSwap services.
+#
+# In Render: New → Blueprint → connect the repo → it reads this file.
+# Then fill in the env vars marked `sync: false` when prompted.
+#
+# The backend starts in read-only mode without RELAYER_PRIVATE_KEY —
+# prices, quotes, indexing and the whole UI work, but nothing settles.
+# That's fine for a demo; add the key later to enable settlement.
+
+services:
+  # ---------------------------------------------------------------------------
+  # Backend: relayer + indexer + price API + WebSocket
+  # ---------------------------------------------------------------------------
+  - type: web
+    name: flareswap-backend
+    runtime: node
+    plan: starter
+    rootDir: backend
+    buildCommand: rm -rf node_modules package-lock.json && npm install --no-audit --no-fund && npm run build
+    startCommand: node dist/index.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: CHAIN_ID
+        value: "114"
+      - key: FLARE_RPC_URL
+        value: https://coston2-api.flare.network/ext/C/rpc
+      - key: CORS_ORIGIN
+        value: "*"
+      - key: DATABASE_PATH
+        value: ./data/flareswap.db
+      - key: XRPL_SOURCE_ID
+        value: testXRP
+      - key: XRPL_WS_URL
+        value: wss://s.altnet.rippletest.net:51233
+      # --- secrets: Render prompts for these ---
+      # Funded Coston2 key for settlement transactions (optional — omit for read-only).
+      - key: RELAYER_PRIVATE_KEY
+        sync: false
+      # XRPL deposit address the contracts were configured with.
+      - key: XRPL_DEPOSIT_ADDRESS
+        sync: false
+      # FDC verifier API key (required for attestations).
+      - key: FDC_VERIFIER_API_KEY
+        sync: false
+
+  # ---------------------------------------------------------------------------
+  # Frontend: Next.js
+  # ---------------------------------------------------------------------------
+  - type: web
+    name: flareswap-frontend
+    runtime: node
+    plan: starter
+    rootDir: frontend
+    buildCommand: rm -rf node_modules package-lock.json && npm install --no-audit --no-fund && npm run build
+    startCommand: node_modules/.bin/next start --port $PORT
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      # Set to the backend's public URL, e.g. https://flareswap-backend.onrender.com
+      # NEXT_PUBLIC_* is baked in at BUILD time — changing it requires a redeploy.
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
+      - key: NEXT_PUBLIC_CHAIN_ID
+        value: "114"
