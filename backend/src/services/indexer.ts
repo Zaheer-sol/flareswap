@@ -8,8 +8,8 @@ import * as store from "../db/index.js";
 const log = createLogger("indexer");
 
 const CURSOR = "indexer:lastBlock";
-/** Public RPC nodes commonly cap `eth_getLogs` ranges; 2000 is comfortably under every limit. */
-const MAX_BLOCK_RANGE = 2_000;
+/** Coston2's public RPC caps `eth_getLogs` ranges at 30 blocks — far tighter than most nodes. */
+const MAX_BLOCK_RANGE = 25;
 
 /**
  * Mirrors on-chain intent state into SQLite.
