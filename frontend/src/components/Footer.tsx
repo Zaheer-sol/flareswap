@@ -19,7 +19,7 @@ export function Footer() {
     : [];
 
   return (
-    <footer className="mt-20 border-t border-white/5 bg-ink-950/60">
+    <footer className="mt-20 border-t border-white/5 bg-ink-950/60 pb-16 md:pb-0">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-4">
         <div className="md:col-span-2">
           <p className="text-sm font-bold text-white">

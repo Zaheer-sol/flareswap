@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import {usePathname} from "next/navigation";
-import {useState} from "react";
 import {useWallet} from "@/lib/wallet";
 import {DEFAULT_CHAIN_ID, chainInfo} from "@/lib/constants";
 import {shortAddress} from "@/lib/format";
@@ -17,7 +16,6 @@ const NAV_LINKS = [
 
 export function Navbar() {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/5 bg-ink-950/80 backdrop-blur-lg">
@@ -50,33 +48,8 @@ export function Navbar() {
         <div className="ml-auto flex items-center gap-2">
           <NetworkIndicator />
           <ConnectButton />
-          <button
-            type="button"
-            aria-label="Toggle navigation"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((open) => !open)}
-            className="btn-ghost !px-2.5 md:hidden"
-          >
-            {menuOpen ? "×" : "≡"}
-          </button>
         </div>
       </nav>
-
-      {menuOpen ? (
-        <ul className="border-t border-white/5 px-4 pb-3 pt-2 md:hidden">
-          {NAV_LINKS.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      ) : null}
 
       <WalletError />
     </header>

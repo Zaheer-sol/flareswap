@@ -3,6 +3,7 @@ import "./globals.css";
 import {WalletProvider} from "@/lib/wallet";
 import {ToastProvider} from "@/components/Toast";
 import {Navbar} from "@/components/Navbar";
+import {MobileNav} from "@/components/MobileNav";
 import {Footer} from "@/components/Footer";
 
 export const metadata: Metadata = {
@@ -44,6 +45,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
               {children}
             </main>
             <Footer />
+            <MobileNav />
           </ToastProvider>
         </WalletProvider>
       </body>

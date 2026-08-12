@@ -98,7 +98,7 @@ interface WalletState {
 
 const WalletContext = createContext<WalletState | null>(null);
 
-const STORAGE_KEY = "flareswap:connected";
+export const STORAGE_KEY = "flareswap:connected";
 
 /**
  * Turns an EIP-1193 rejection into something actionable.

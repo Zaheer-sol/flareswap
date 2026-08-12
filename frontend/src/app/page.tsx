@@ -1,14 +1,38 @@
 "use client";
 
 import Link from "next/link";
+import {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
 import {PriceTicker} from "@/components/PriceTicker";
 import {StatTile} from "@/components/ui";
 import {useStats} from "@/lib/hooks";
 import {formatUsd, formatDuration} from "@/lib/format";
 import {LINKS} from "@/lib/constants";
+import {STORAGE_KEY, useWallet} from "@/lib/wallet";
 
 export default function LandingPage() {
+  const router = useRouter();
+  const {address} = useWallet();
   const stats = useStats();
+
+  // A returning user with a wallet already linked doesn't need the pitch again
+  // — send them straight to the swap screen. `hasLinkedWallet` gates the
+  // loading state so a first-time visitor (nothing in storage) sees the
+  // landing page immediately, with no flash either way.
+  const [hasLinkedWallet] = useState(
+    () => typeof window !== "undefined" && localStorage.getItem(STORAGE_KEY) === "1",
+  );
+  useEffect(() => {
+    if (address) router.replace("/swap");
+  }, [address, router]);
+
+  if (hasLinkedWallet && !address) {
+    return (
+      <div className="flex min-h-[70vh] items-center justify-center">
+        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-flare-400" aria-hidden />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-16">
