@@ -3,8 +3,11 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { useWallet } from "@/lib/wallet";
 
-const TABS = [
+// Every one of these reads or acts on a connected account — there's nothing
+// for a disconnected visitor to do on any of them but hit a wallet prompt.
+const GATED_TABS = [
   {href: "/swap", label: "Swap", icon: SwapIcon},
   {href: "/dashboard", label: "Dashboard", icon: DashboardIcon},
   {href: "/pool", label: "Pool", icon: PoolIcon},
@@ -21,8 +24,48 @@ const MORE_LINKS = [{href: "/docs", label: "Docs"}] as const;
  */
 export function MobileNav() {
   const pathname = usePathname();
+  const {address, connect, connecting, hasWallet} = useWallet();
   const [moreOpen, setMoreOpen] = useState(false);
   const moreActive = MORE_LINKS.some((l) => l.href === pathname);
+
+  if (!address) {
+    return (
+      <nav
+        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-white/5 bg-ink-950/95 backdrop-blur-lg md:hidden"
+        style={{paddingBottom: "env(safe-area-inset-bottom)"}}
+        aria-label="Primary"
+      >
+        <Link
+          href="/docs"
+          className="flex flex-col items-center gap-1 py-2.5 text-[10px] font-medium"
+        >
+          <DocsIcon active={pathname === "/docs"} />
+          <span className={pathname === "/docs" ? "text-flare-400" : "text-slate-500"}>Docs</span>
+        </Link>
+        {hasWallet ? (
+          <button
+            type="button"
+            onClick={() => void connect()}
+            disabled={connecting}
+            className="flex flex-col items-center gap-1 py-2.5 text-[10px] font-medium"
+          >
+            <WalletIcon active={false} />
+            <span className="text-slate-500">{connecting ? "Connecting…" : "Connect wallet"}</span>
+          </button>
+        ) : (
+          <a
+            href="https://metamask.io/download/"
+            target="_blank"
+            rel="noreferrer"
+            className="flex flex-col items-center gap-1 py-2.5 text-[10px] font-medium"
+          >
+            <WalletIcon active={false} />
+            <span className="text-slate-500">Install wallet</span>
+          </a>
+        )}
+      </nav>
+    );
+  }
 
   return (
     <>
@@ -57,7 +100,7 @@ export function MobileNav() {
         aria-label="Primary"
       >
         <div className="grid grid-cols-5">
-          {TABS.map((tab) => {
+          {GATED_TABS.map((tab) => {
             const active = pathname === tab.href || pathname.startsWith(`${tab.href}/`);
             return (
               <Link
@@ -129,6 +172,23 @@ function MoreIcon({active}: IconProps) {
       <circle cx="5" cy="12" r="1.7" />
       <circle cx="12" cy="12" r="1.7" />
       <circle cx="19" cy="12" r="1.7" />
+    </svg>
+  );
+}
+function DocsIcon({active}: IconProps) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={active ? ACTIVE : IDLE} strokeWidth="2.2" aria-hidden>
+      <path d="M6 4h9l3 3v13H6z" strokeLinejoin="round" />
+      <path d="M9 11h6M9 15h6" strokeLinecap="round" />
+    </svg>
+  );
+}
+function WalletIcon({active}: IconProps) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={active ? ACTIVE : IDLE} strokeWidth="2.2" aria-hidden>
+      <rect x="3.5" y="6" width="17" height="13" rx="2.2" />
+      <path d="M3.5 10h17" />
+      <circle cx="16.5" cy="14" r="1" fill={active ? ACTIVE : IDLE} stroke="none" />
     </svg>
   );
 }

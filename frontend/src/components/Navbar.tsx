@@ -6,16 +6,21 @@ import {useWallet} from "@/lib/wallet";
 import {DEFAULT_CHAIN_ID, chainInfo} from "@/lib/constants";
 import {shortAddress} from "@/lib/format";
 
+// Swap/Dashboard/Pool/Explorer all read or act on a connected account, so
+// there's nothing for a disconnected visitor to do there but hit a wallet
+// prompt. Docs is the one page worth reading before you've connected.
 const NAV_LINKS = [
-  {href: "/swap", label: "Swap"},
-  {href: "/dashboard", label: "Dashboard"},
-  {href: "/pool", label: "Pool"},
-  {href: "/explorer", label: "Explorer"},
-  {href: "/docs", label: "Docs"},
+  {href: "/swap", label: "Swap", gated: true},
+  {href: "/dashboard", label: "Dashboard", gated: true},
+  {href: "/pool", label: "Pool", gated: true},
+  {href: "/explorer", label: "Explorer", gated: true},
+  {href: "/docs", label: "Docs", gated: false},
 ] as const;
 
 export function Navbar() {
   const pathname = usePathname();
+  const {address} = useWallet();
+  const links = NAV_LINKS.filter((l) => !l.gated || address);
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/5 bg-ink-950/80 backdrop-blur-lg">
@@ -28,7 +33,7 @@ export function Navbar() {
         </Link>
 
         <ul className="ml-4 hidden items-center gap-1 md:flex">
-          {NAV_LINKS.map((link) => {
+          {links.map((link) => {
             const active = pathname === link.href || pathname.startsWith(`${link.href}/`);
             return (
               <li key={link.href}>
