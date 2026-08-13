@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useWallet } from "@/lib/wallet";
 
@@ -17,6 +17,38 @@ const GATED_TABS = [
 const MORE_LINKS = [{href: "/docs", label: "Docs"}] as const;
 
 /**
+ * Hides the bar while scrolling through page content and brings it back near
+ * the top or on a scroll-up — connected traders keep it pinned always (the
+ * bar *is* the app for them), but a disconnected visitor is reading a
+ * landing page, and a bar with one real destination shouldn't sit over their
+ * content the whole way down.
+ */
+function useHideOnScroll(active: boolean) {
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
+
+  useEffect(() => {
+    if (!active) {
+      setHidden(false);
+      return;
+    }
+    lastY.current = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      const delta = y - lastY.current;
+      if (y < 48) setHidden(false);
+      else if (delta > 8) setHidden(true);
+      else if (delta < -8) setHidden(false);
+      lastY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, {passive: true});
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [active]);
+
+  return hidden;
+}
+
+/**
  * Bottom tab bar for phones. The header's link list is `hidden md:flex`, and
  * behind it sat only a hamburger toggle — one extra tap, every time, to see
  * where you even are. A persistent bar matches what people already expect
@@ -27,11 +59,14 @@ export function MobileNav() {
   const {address, connect, connecting, hasWallet} = useWallet();
   const [moreOpen, setMoreOpen] = useState(false);
   const moreActive = MORE_LINKS.some((l) => l.href === pathname);
+  const scrollHidden = useHideOnScroll(!address);
 
   if (!address) {
     return (
       <nav
-        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-white/5 bg-ink-950/95 backdrop-blur-lg md:hidden"
+        className={`fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-white/5 bg-ink-950/95 backdrop-blur-lg transition-transform duration-300 ease-out motion-reduce:transition-none md:hidden ${
+          scrollHidden ? "translate-y-full" : "translate-y-0"
+        }`}
         style={{paddingBottom: "env(safe-area-inset-bottom)"}}
         aria-label="Primary"
       >

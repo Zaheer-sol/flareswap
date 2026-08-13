@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import {usePathname} from "next/navigation";
+import {useState} from "react";
 import {useWallet} from "@/lib/wallet";
 import {DEFAULT_CHAIN_ID, chainInfo} from "@/lib/constants";
 import {shortAddress} from "@/lib/format";
@@ -21,6 +22,16 @@ export function Navbar() {
   const pathname = usePathname();
   const {address} = useWallet();
   const links = NAV_LINKS.filter((l) => !l.gated || address);
+
+  // The bottom bar is the primary mobile nav once connected. Before that,
+  // this is the only way a phone reaches Docs without typing the URL — scoped
+  // to disconnected so it doesn't duplicate the bottom bar once there's more
+  // than one link to switch between.
+  const [menuOpen, setMenuOpen] = useState(false);
+  // Derived, not synced via effect: once connected the panel is gated off
+  // below anyway, so folding that into `menuVisible` covers both "just
+  // connected" and "connected on a later visit" without extra state.
+  const menuVisible = menuOpen && !address;
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/5 bg-ink-950/80 backdrop-blur-lg">
@@ -53,11 +64,53 @@ export function Navbar() {
         <div className="ml-auto flex items-center gap-2">
           <NetworkIndicator />
           <ConnectButton />
+          {!address && (
+            <button
+              type="button"
+              aria-label="Toggle menu"
+              aria-expanded={menuVisible}
+              onClick={() => setMenuOpen((v) => !v)}
+              className="btn-ghost !px-2.5 md:hidden"
+            >
+              {menuVisible ? <CloseIcon /> : <BurgerIcon />}
+            </button>
+          )}
         </div>
       </nav>
 
+      {menuVisible && (
+        <ul className="border-t border-white/5 px-4 pb-3 pt-2 md:hidden">
+          {links.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+
       <WalletError />
     </header>
+  );
+}
+
+function BurgerIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
+    </svg>
+  );
+}
+function CloseIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+    </svg>
   );
 }
 
