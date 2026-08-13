@@ -4,10 +4,22 @@ import Link from "next/link";
 import {DEFAULT_CHAIN_ID, LINKS, chainInfo, explorerAddressUrl} from "@/lib/constants";
 import {useAppConfig} from "@/lib/hooks";
 import {shortAddress} from "@/lib/format";
+import {useWallet} from "@/lib/wallet";
+
+// Same rule as the nav: these read or act on a connected account, so there's
+// nothing for a disconnected visitor to do there but hit a wallet prompt.
+const PRODUCT_LINKS = [
+  {href: "/swap", label: "Swap", gated: true},
+  {href: "/pool", label: "Liquidity pool", gated: true},
+  {href: "/explorer", label: "Explorer", gated: true},
+  {href: "/docs", label: "How it works", gated: false},
+] as const;
 
 export function Footer() {
   const {data: config} = useAppConfig();
+  const {address} = useWallet();
   const chain = chainInfo(DEFAULT_CHAIN_ID);
+  const productLinks = PRODUCT_LINKS.filter((l) => !l.gated || address);
 
   const contracts = config
     ? ([
@@ -39,26 +51,13 @@ export function Footer() {
         <div>
           <p className="label mb-3">Product</p>
           <ul className="space-y-2 text-xs text-slate-400">
-            <li>
-              <Link href="/swap" className="hover:text-slate-200">
-                Swap
-              </Link>
-            </li>
-            <li>
-              <Link href="/pool" className="hover:text-slate-200">
-                Liquidity pool
-              </Link>
-            </li>
-            <li>
-              <Link href="/explorer" className="hover:text-slate-200">
-                Explorer
-              </Link>
-            </li>
-            <li>
-              <Link href="/docs" className="hover:text-slate-200">
-                How it works
-              </Link>
-            </li>
+            {productLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="hover:text-slate-200">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
