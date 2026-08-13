@@ -116,7 +116,7 @@ function describeConnectError(cause: unknown): string | null {
       // User dismissed the prompt deliberately — not worth a banner.
       return null;
     case -32002:
-      return "A connection request is already open. Click the MetaMask icon in your browser toolbar to approve it — the popup does not always come to the front.";
+      return "A connection request is already open. Click the MetaMask icon in your browser toolbar to approve it. The popup does not always come to the front.";
     case 4100:
       return "Your wallet has not authorised this account. Unlock MetaMask and try again.";
     case 4900:

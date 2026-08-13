@@ -36,7 +36,7 @@ export default function ExplorerPage() {
       <PageHeader
         eyebrow="Public feed"
         title="Explorer"
-        description="Every intent the protocol has processed. Recipient addresses are truncated — the data is public on-chain either way."
+        description="Every intent the protocol has processed. Recipient addresses are truncated, though the data is public on-chain either way."
       />
 
       <PriceTicker symbols={["XRP", "FLR", "BTC", "ETH", "USDC"]} />
@@ -44,24 +44,24 @@ export default function ExplorerPage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatTile
           label="All-time volume"
-          value={stats ? formatUsd(stats.totalVolumeUsd) : "—"}
+          value={stats ? formatUsd(stats.totalVolumeUsd) : "-"}
           sublabel={stats ? `${Number(stats.totalVolumeXrp).toLocaleString("en-US")} XRP` : undefined}
           accent="flare"
         />
         <StatTile
           label="Intents today"
-          value={stats?.intentsToday ?? "—"}
+          value={stats?.intentsToday ?? "-"}
           sublabel={stats ? `${stats.totalIntents} all time` : undefined}
         />
         <StatTile
           label="Avg settlement"
-          value={stats && stats.averageSettlementSeconds !== null ? formatDuration(stats.averageSettlementSeconds) : "—"}
+          value={stats && stats.averageSettlementSeconds !== null ? formatDuration(stats.averageSettlementSeconds) : "-"}
           sublabel="deposit to delivery"
           accent="verify"
         />
         <StatTile
           label="Success rate"
-          value={stats ? `${stats.successRatePct}%` : "—"}
+          value={stats ? `${stats.successRatePct}%` : "-"}
           sublabel={stats ? `${stats.failedIntents} failed` : undefined}
           accent="mint"
         />
@@ -113,7 +113,7 @@ function FeedHealth() {
   if (prices.length === 0) return null;
 
   return (
-    <Section title="Oracle feeds" description="Sourced live from FTSOv2 — the same values the settler reads">
+    <Section title="Oracle feeds" description="Sourced live from FTSOv2 (the same values the settler reads)">
       <div className="card overflow-x-auto">
         <table className="w-full min-w-[34rem] text-left text-sm">
           <thead>

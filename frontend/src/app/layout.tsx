@@ -7,14 +7,14 @@ import {MobileNav} from "@/components/MobileNav";
 import {Footer} from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: {default: "FlareSwap — Cross-chain intent DEX", template: "%s · FlareSwap"},
+  title: {default: "FlareSwap | Cross-chain intent DEX", template: "%s · FlareSwap"},
   description:
     "Swap XRP on the XRP Ledger for tokens on Flare in one step. Deposits verified by the Flare " +
     "Data Connector, priced by FTSOv2, bridged by FAssets.",
   applicationName: "FlareSwap",
   keywords: ["Flare", "FTSO", "FDC", "FAssets", "FXRP", "XRPL", "intent", "cross-chain", "DEX"],
   openGraph: {
-    title: "FlareSwap — Cross-chain intent DEX",
+    title: "FlareSwap | Cross-chain intent DEX",
     description: "One intent. XRP in on XRPL, USDC out on Flare.",
     type: "website",
   },

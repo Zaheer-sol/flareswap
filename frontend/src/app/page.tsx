@@ -50,7 +50,7 @@ export default function LandingPage() {
           </h1>
 
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-slate-400">
-            Tell FlareSwap what you want — &ldquo;500 XRP for USDC&rdquo;. Send one payment on the
+            Tell FlareSwap what you want, like &ldquo;500 XRP for USDC&rdquo;. Send one payment on the
             XRP Ledger. The Flare Data Connector proves it, FTSOv2 prices it, FAssets mints it,
             and the output lands in your Flare wallet.
           </p>
@@ -131,7 +131,7 @@ export default function LandingPage() {
         <div className="mb-6 text-center">
           <h2 className="text-2xl font-bold text-white">Built on three Flare protocols</h2>
           <p className="mt-2 text-sm text-slate-500">
-            Not one integration bolted on — each protocol does the job only it can do.
+            Not one integration bolted on. Each protocol does the job only it can do.
           </p>
         </div>
 
@@ -142,7 +142,7 @@ export default function LandingPage() {
               full: "Flare Data Connector",
               role: "Proves the XRPL deposit really happened",
               detail:
-                "Flare's validators independently attest to the payment. The settler verifies a Merkle proof on-chain — no centralised oracle, no trusted relayer.",
+                "Flare's validators independently attest to the payment. The settler verifies a Merkle proof on-chain (no centralised oracle, no trusted relayer).",
               href: LINKS.fdcDocs,
             },
             {
@@ -188,20 +188,20 @@ export default function LandingPage() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatTile
             label="Total volume"
-            value={stats ? formatUsd(stats.totalVolumeUsd) : "—"}
+            value={stats ? formatUsd(stats.totalVolumeUsd) : "-"}
             sublabel={stats ? `${Number(stats.totalVolumeXrp).toLocaleString("en-US")} XRP settled` : undefined}
             accent="flare"
           />
-          <StatTile label="Intents created" value={stats?.totalIntents ?? "—"} sublabel={stats ? `${stats.intentsToday} today` : undefined} />
+          <StatTile label="Intents created" value={stats?.totalIntents ?? "-"} sublabel={stats ? `${stats.intentsToday} today` : undefined} />
           <StatTile
             label="Avg settlement"
-            value={stats?.averageSettlementSeconds !== null && stats ? formatDuration(stats.averageSettlementSeconds) : "—"}
+            value={stats?.averageSettlementSeconds !== null && stats ? formatDuration(stats.averageSettlementSeconds) : "-"}
             sublabel="deposit to delivery"
             accent="verify"
           />
           <StatTile
             label="Success rate"
-            value={stats ? `${stats.successRatePct}%` : "—"}
+            value={stats ? `${stats.successRatePct}%` : "-"}
             sublabel={stats ? `${stats.settledIntents} settled` : undefined}
             accent="mint"
           />

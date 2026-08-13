@@ -45,7 +45,7 @@ export function formatUsd(value: string | number | null | undefined, digits = 2)
 
 export function formatPrice(price: string | number | null | undefined, digits = 4): string {
   const numeric = typeof price === "string" ? Number(price) : (price ?? 0);
-  if (!Number.isFinite(numeric) || numeric === 0) return "—";
+  if (!Number.isFinite(numeric) || numeric === 0) return "-";
   if (numeric >= 1000) return numeric.toLocaleString("en-US", {maximumFractionDigits: 2});
   if (numeric >= 1) return numeric.toFixed(digits);
   // Sub-dollar assets need more precision than a fixed 4 dp gives.
@@ -53,13 +53,13 @@ export function formatPrice(price: string | number | null | undefined, digits = 
 }
 
 export function shortAddress(address: string | null | undefined, size = 4): string {
-  if (!address) return "—";
+  if (!address) return "-";
   if (address.length <= size * 2 + 2) return address;
   return `${address.slice(0, size + 2)}…${address.slice(-size)}`;
 }
 
 export function shortHash(hash: string | null | undefined, size = 6): string {
-  if (!hash) return "—";
+  if (!hash) return "-";
   return hash.length <= size * 2 ? hash : `${hash.slice(0, size)}…${hash.slice(-size)}`;
 }
 
@@ -68,7 +68,7 @@ export function formatBps(bps: number): string {
 }
 
 export function formatRelativeTime(unixSeconds: number | null | undefined): string {
-  if (!unixSeconds) return "—";
+  if (!unixSeconds) return "-";
   const deltaSeconds = Math.floor(Date.now() / 1000) - unixSeconds;
   if (deltaSeconds < 0) return "just now";
   if (deltaSeconds < 60) return `${deltaSeconds}s ago`;
@@ -78,7 +78,7 @@ export function formatRelativeTime(unixSeconds: number | null | undefined): stri
 }
 
 export function formatDateTime(unixSeconds: number | null | undefined): string {
-  if (!unixSeconds) return "—";
+  if (!unixSeconds) return "-";
   return new Date(unixSeconds * 1000).toLocaleString("en-US", {
     month: "short",
     day: "numeric",
@@ -88,7 +88,7 @@ export function formatDateTime(unixSeconds: number | null | undefined): string {
 }
 
 export function formatDuration(seconds: number | null | undefined): string {
-  if (seconds === null || seconds === undefined) return "—";
+  if (seconds === null || seconds === undefined) return "-";
   if (seconds < 60) return `${Math.round(seconds)}s`;
   if (seconds < 3600) return `${Math.floor(seconds / 60)}m ${Math.round(seconds % 60)}s`;
   return `${Math.floor(seconds / 3600)}h ${Math.floor((seconds % 3600) / 60)}m`;

@@ -80,7 +80,7 @@ const FRIENDLY_ERRORS: Record<string, string> = {
   InvalidStatus: "This intent is no longer in a state that allows that action.",
   InsufficientOutputAmount: "The pool cannot fill this at your minimum output.",
   InsufficientLiquidity: "Not enough liquidity in the pool for this trade.",
-  PriceStale: "The FTSO price feed is stale — try again in a moment.",
+  PriceStale: "The FTSO price feed is stale. Try again in a moment.",
   InvalidProof: "The FDC proof did not verify on-chain.",
   ProofAlreadyUsed: "That XRPL payment has already settled another intent.",
   DepositTooSmall: "The deposit is smaller than the intent's declared amount.",

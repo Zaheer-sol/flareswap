@@ -52,7 +52,7 @@ export default function IntentPage({params}: {params: Promise<{id: string}>}) {
         <ErrorState
           message={
             error.includes("not found")
-              ? "No intent with that id. It may not have been indexed yet — the backend catches up within a few seconds of creation."
+              ? "No intent with that id. It may not have been indexed yet. The backend catches up within a few seconds of creation."
               : error
           }
           onRetry={reload}
@@ -93,7 +93,7 @@ export default function IntentPage({params}: {params: Promise<{id: string}>}) {
           <p className="mono mt-1 break-words text-xs text-slate-400">{intent.error}</p>
           <p className="mt-2 text-xs text-slate-500">
             The relayer retries automatically ({intent.attempts} attempt
-            {intent.attempts === 1 ? "" : "s"} so far). Your deposit is not lost — settlement is
+            {intent.attempts === 1 ? "" : "s"} so far). Your deposit is not lost. Settlement is
             atomic, so a failed attempt changes nothing on-chain.
           </p>
           <RetryButton intentId={intent.intentId} onDone={reload} />
@@ -219,7 +219,7 @@ function Timeline({events, intent}: {events: IntentEvent[]; intent: IntentRecord
         {isActive(intent.status) ? (
           <p className="mt-4 flex items-center gap-2 border-t border-white/5 pt-3 text-[11px] text-slate-500">
             <Spinner className="h-3 w-3" />
-            Live — this page updates as the relayer progresses.
+            Live: this page updates as the relayer progresses.
           </p>
         ) : null}
       </div>

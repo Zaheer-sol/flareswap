@@ -77,7 +77,7 @@ export function DepositInstructions({
             )}
           </div>
           <p className="max-w-[10rem] text-center text-[10px] leading-tight text-slate-600">
-            Address only — the tag and memo must be entered manually
+            Address only. The tag and memo must be entered manually
           </p>
         </div>
 
@@ -106,7 +106,7 @@ export function DepositInstructions({
             value={instructions.memoHex}
             mono
             required
-            hint="32-byte hex — this is what binds the payment to your intent"
+            hint="32-byte hex: this is what binds the payment to your intent"
           />
         </dl>
       </div>

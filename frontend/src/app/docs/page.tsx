@@ -51,7 +51,7 @@ export default function DocsPage() {
       <Section title="Flare integration" description="Three protocols, three distinct jobs">
         <div className="space-y-4">
           <ProtocolCard
-            name="FDC — Flare Data Connector"
+            name="FDC | Flare Data Connector"
             role="Proves the XRPL deposit happened"
             href={LINKS.fdcDocs}
             points={[
@@ -72,13 +72,13 @@ if (settledByTx[txId] != bytes32(0)) revert ProofAlreadyUsed(...);  // one payme
           />
 
           <ProtocolCard
-            name="FTSOv2 — Time Series Oracle"
+            name="FTSOv2 | Time Series Oracle"
             role="Prices every quote and bounds every fill"
             href={LINKS.ftsoDocs}
             points={[
               "Block-latency feeds (~1.8s) for XRP/USD and USDC/USD, read through the canonical contract registry.",
               "PriceOracle rejects any value older than 300 seconds, so a dead feed stops settlement instead of mis-pricing it.",
-              "IntentSettler computes the oracle fair value and enforces a floor at the user's slippage tolerance — the AMM output must clear it.",
+              "IntentSettler computes the oracle fair value and enforces a floor at the user's slippage tolerance. The AMM output must clear it.",
               "The rate shown on the swap screen is the same number the contract will use.",
             ]}
             code={`// feed id = 0x01 (crypto) + ASCII name, right-padded to 21 bytes
@@ -92,7 +92,7 @@ uint256 minOut = Math.max(intent.minOutputAmount, floor);   // the stricter of t
           />
 
           <ProtocolCard
-            name="FAssets — FXRP"
+            name="FAssets | FXRP"
             role="Turns proven XRP into an ERC-20 on Flare"
             href={LINKS.fassetsDocs}
             points={[
@@ -151,7 +151,7 @@ uint256 minOut = Math.max(intent.minOutputAmount, floor);   // the stricter of t
               <div>
                 <p className="text-sm font-medium text-slate-200">FlareContractRegistry</p>
                 <p className="text-[11px] text-slate-600">
-                  Canonical — identical on Flare, Songbird, Coston and Coston2
+                  Canonical (identical on Flare, Songbird, Coston and Coston2)
                 </p>
               </div>
               <AddressChip address={REGISTRY} href={explorerAddressUrl(DEFAULT_CHAIN_ID, REGISTRY) ?? undefined} />
@@ -192,7 +192,7 @@ uint256 minOut = Math.max(intent.minOutputAmount, floor);   // the stricter of t
             derives everything from the FDC proof: the output always goes to{" "}
             <code className="mono text-flare-300">intent.user</code>, the amount is bounded by the
             terms you signed, and the payment reference must equal your intent id. The relayer only
-            chooses <em>when</em> to submit — and since{" "}
+            chooses <em>when</em> to submit, and since{" "}
             <code className="mono text-flare-300">settleIntent</code> is permissionless, anyone can
             do that if it stops.
           </Faq>
@@ -208,7 +208,7 @@ uint256 minOut = Math.max(intent.minOutputAmount, floor);   // the stricter of t
           <Faq question="What happens if the price moves while my deposit is in flight?">
             Your slippage tolerance is checked against FTSO <em>at settlement time</em>, so it
             tracks the market rather than a stale quote. The absolute minimum written into the
-            intent is deliberately set well below that, as a disaster backstop — otherwise an
+            intent is deliberately set well below that, as a disaster backstop. Otherwise an
             ordinary 2% move would strand a perfectly fair swap.
           </Faq>
 

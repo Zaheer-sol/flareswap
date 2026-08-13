@@ -151,7 +151,7 @@ function PoolView({
             <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
               <span className="text-slate-400">IntentSettler</span> refuses any fill more than the
               user&rsquo;s slippage tolerance below the FTSO fair value. A thin or skewed pool
-              therefore does not produce bad fills — it produces reverted settlements. Deep,
+              therefore does not produce bad fills. It produces reverted settlements. Deep,
               on-market liquidity is what keeps the success rate high.
             </p>
           </div>
@@ -364,7 +364,7 @@ function LiquidityPanel({
             owner={wallet.address}
           />
           <p className="text-[11px] text-slate-600">
-            Amounts stay matched to the pool ratio — the contract rebalances any surplus back to you
+            Amounts stay matched to the pool ratio. The contract rebalances any surplus back to you
             rather than taking it.
           </p>
           <ActionButton

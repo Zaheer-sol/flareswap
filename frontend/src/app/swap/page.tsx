@@ -303,7 +303,7 @@ function SwapForm({config, onReloadConfig}: {config: AppConfig; onReloadConfig: 
             <span className="text-slate-500">
               {usdValue !== null
                 ? `≈ $${usdValue.toLocaleString("en-US", {maximumFractionDigits: 2})}`
-                : "—"}
+                : "-"}
             </span>
             <div className="flex gap-1">
               {["100", "500", "1000"].map((preset) => (
@@ -429,7 +429,7 @@ function SwapForm({config, onReloadConfig}: {config: AppConfig; onReloadConfig: 
                   </div>
                 </div>
                 <p className="mt-2 text-[11px] leading-relaxed text-slate-600">
-                  Checked against the FTSO price <em>at settlement time</em>, not now — so it tracks
+                  Checked against the FTSO price <em>at settlement time</em>, not now, so it tracks
                   the market while your deposit is in flight.
                 </p>
               </div>
@@ -517,7 +517,7 @@ function SwapForm({config, onReloadConfig}: {config: AppConfig; onReloadConfig: 
           )}
 
           <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-600">
-            Creating an intent costs one Flare transaction. You send the XRP afterwards — nothing
+            Creating an intent costs one Flare transaction. You send the XRP afterwards. Nothing
             leaves your XRPL wallet until you sign that payment yourself.
           </p>
         </div>
@@ -630,7 +630,7 @@ function QuotePanel({
 
       {impactHigh ? (
         <p className="rounded-lg border border-flare-700/40 bg-flare-900/20 px-2.5 py-2 text-[11px] leading-relaxed text-flare-200">
-          High price impact — this trade is large relative to the {destination.symbol} pool.
+          High price impact: this trade is large relative to the {destination.symbol} pool.
           Consider splitting it or choosing a deeper pair.
         </p>
       ) : null}

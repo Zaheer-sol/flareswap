@@ -27,7 +27,7 @@ export function Footer() {
           </p>
           <p className="mt-2 max-w-sm text-xs leading-relaxed text-slate-500">
             Intent-based cross-chain swaps. Deposit XRP on the XRP Ledger, receive the token you
-            asked for on Flare — verified by the Flare Data Connector, priced by FTSOv2, bridged
+            asked for on Flare, verified by the Flare Data Connector, priced by FTSOv2, bridged
             by FAssets.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">

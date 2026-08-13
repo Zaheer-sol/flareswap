@@ -80,7 +80,7 @@ export function IntentTable({
                     <span className="text-slate-500">{intent.destinationSymbol}</span>
                   </span>
                 ) : (
-                  <span className="text-slate-600">— {intent.destinationSymbol}</span>
+                  <span className="text-slate-600">- {intent.destinationSymbol}</span>
                 )}
               </td>
               <td className="px-4 py-3">
@@ -109,7 +109,7 @@ export function IntentTable({
                 </span>
                 <span className="text-slate-600">→</span>
                 <span className={intent.outputAmount ? "text-mint-400" : "text-slate-600"}>
-                  {intent.outputAmount ? formatAmount(intent.outputAmount, 6, 4) : "—"}{" "}
+                  {intent.outputAmount ? formatAmount(intent.outputAmount, 6, 4) : "-"}{" "}
                   {intent.destinationSymbol}
                 </span>
               </div>
